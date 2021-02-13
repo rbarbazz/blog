@@ -2,10 +2,10 @@ baseURL = "https://blog.rbarbazz.com/"
 languageCode = "en-us"
 title = "rbarbazz's blog"
 theme = "harbor"
-paginate = 5
+paginate = 3
 
 [outputs]
-  section = ["JSON", "HTML"]
+  section = ["HTML"]
 
 [[params.nav]]
   identifier = "tags"
