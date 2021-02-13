@@ -2,9 +2,17 @@ baseURL = "https://rbarbazz.github.io/blog/"
 languageCode = "en-us"
 title = "rbarbazz's blog"
 theme = "harbor"
+paginate = 5
 
 [outputs]
   section = ["JSON", "HTML"]
+
+[[params.nav]]
+  identifier = "tags"
+  name = "Tags"
+  icon = "fas fa-tag fa-lg"
+  url = "tags"
+  weight = 3
 
 [params.logo]
   url = "gakuto.png"
