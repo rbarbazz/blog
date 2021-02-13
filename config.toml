@@ -19,3 +19,8 @@ paginate = 5
   width = 40
   height = 40
   alt = "Gakuto"
+
+[[params.social]]
+  name="Github"
+  url="https://github.com/rbarbazz"
+  icon = "fab fa-github fa-lg"
