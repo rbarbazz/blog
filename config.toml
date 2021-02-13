@@ -1,0 +1,13 @@
+baseURL = "https://blog.rbarbazz.com/"
+languageCode = "en-us"
+title = "rbarbazz's blog"
+theme = "harbor"
+
+[outputs]
+  section = ["JSON", "HTML"]
+
+[params.logo]
+  url = "gakuto.png"
+  width = 40
+  height = 40
+  alt = "Gakuto"

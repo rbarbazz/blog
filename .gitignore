@@ -1,0 +1,5 @@
+# Hugo default output directory
+/public
+
+## OS Files
+.DS_Store
