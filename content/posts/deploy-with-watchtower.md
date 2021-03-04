@@ -1,5 +1,5 @@
 ---
-title: 'Automated deployment with Watchtower'
+title: 'Automated Deployment with Watchtower'
 date: 2021-02-21T15:46:40-08:00
 draft: false
 tags:

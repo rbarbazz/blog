@@ -1,5 +1,5 @@
 ---
-title: 'Cron local mail'
+title: 'Cron Local Mail'
 date: 2021-02-16T21:46:29-08:00
 draft: false
 tags:

@@ -1,5 +1,5 @@
 ---
-title: 'ESLint With Typescript'
+title: 'ESLint with Typescript'
 date: 2021-02-13T11:25:42-08:00
 draft: false
 tags:

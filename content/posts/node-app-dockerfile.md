@@ -1,5 +1,5 @@
 ---
-title: 'Basic Dockerfile for a Node app'
+title: 'Basic Dockerfile for a Node App'
 date: 2021-02-18T23:18:16-08:00
 draft: false
 tags:

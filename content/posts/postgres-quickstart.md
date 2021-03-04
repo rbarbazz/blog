@@ -1,5 +1,5 @@
 ---
-title: 'Postgres quickstart'
+title: 'Postgres Quickstart'
 date: 2021-02-15T08:48:17-08:00
 draft: false
 tags:

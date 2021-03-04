@@ -1,5 +1,5 @@
 ---
-title: 'Automated DB backups on B2'
+title: 'Automated DB Backups on B2'
 date: 2021-02-12T23:19:00-08:00
 draft: false
 tags:
