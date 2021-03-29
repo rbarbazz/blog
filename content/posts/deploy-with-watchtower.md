@@ -4,6 +4,7 @@ date: 2021-02-21T15:46:40-08:00
 draft: false
 tags:
   - docker
+  - ci/cd
 ---
 
 You can use [Watchtower](https://github.com/containrrr/watchtower/) to automate the deployment of a dockerized app on a VPS.
