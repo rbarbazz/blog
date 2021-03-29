@@ -1,0 +1,50 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><title>Wordpress Theme Deployment</title><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=alternate type=application/rss+xml href=https://blog.rbarbazz.com/index.xml title="rbarbazz's blog"><meta name=twitter:card content="summary"><meta name=twitter:title content="Wordpress Theme Deployment"><meta name=twitter:description content="Deploy a custom Wordpress theme with zero downtime using Github Actions."><link rel=stylesheet href=https://blog.rbarbazz.com/fontawesome/css/all.min.css><link id=dark-mode-theme rel=stylesheet href=https://blog.rbarbazz.com/css/dark.css><script>var darkTheme=document.getElementById('dark-mode-theme'),storedTheme=localStorage.getItem('dark-mode-storage');storedTheme==='dark'?darkTheme.disabled=!1:storedTheme==='light'&&(darkTheme.disabled=!0)</script><script src=https://blog.rbarbazz.com/js/bundle.js></script><script src=https://blog.rbarbazz.com/js/instantpage.min.js type=module defer></script><meta name=generator content="Hugo 0.82.0"></head><body><header><nav class=navbar><div class=nav><a href=https://blog.rbarbazz.com/ class=nav-logo><img src=https://blog.rbarbazz.com/images/gakuto.png width=40 height=40 alt=Gakuto></a><ul class=nav-links><li><a href=/tags id=Tags><em class="fas fa-tag fa-lg"></em></a></li></ul></div></nav><div class=intro-header><div class=container><div class=posts-heading><h1>Wordpress Theme Deployment</h1></div></div></div></header><div class=container role=main><article class=article class=blog-post><p>Deploy a custom Wordpress theme with zero downtime using Github Actions.</p><p>Build the project, <code>scp</code> the theme folder to the host. Link the new version and remove the old one.</p><p>Example workflow:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>name</span>: <span style=color:#ae81ff>Deployment</span>
+<span style=color:#f92672>on</span>:
+  <span style=color:#f92672>push</span>:
+    <span style=color:#f92672>branches</span>:
+      - <span style=color:#ae81ff>master</span>
+<span style=color:#f92672>jobs</span>:
+  <span style=color:#f92672>deploy</span>:
+    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Deploy</span>
+    <span style=color:#f92672>runs-on</span>: <span style=color:#ae81ff>ubuntu-latest</span>
+    <span style=color:#f92672>steps</span>:
+      - <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/checkout@v2</span>
+      - <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/setup-node@v1</span>
+        <span style=color:#f92672>with</span>:
+          <span style=color:#f92672>node-version</span>: <span style=color:#ae81ff>12</span>
+      - <span style=color:#f92672>run</span>: <span style=color:#ae81ff>npm ci</span>
+      - <span style=color:#f92672>run</span>: <span style=color:#ae81ff>npm run build</span>
+      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Copy theme to host</span>
+        <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>appleboy/scp-action@v0.1.1</span>
+        <span style=color:#f92672>with</span>:
+          <span style=color:#f92672>host</span>: <span style=color:#ae81ff>${{ secrets.HOST }}</span>
+          <span style=color:#f92672>username</span>: <span style=color:#ae81ff>${{ secrets.USERNAME }}</span>
+          <span style=color:#f92672>key</span>: <span style=color:#ae81ff>${{ secrets.SSH_KEY }}</span>
+          <span style=color:#f92672>source</span>: <span style=color:#e6db74>&#39;.&#39;</span>
+          <span style=color:#f92672>target</span>: <span style=color:#e6db74>&#39;${{ secrets.THEME_ABS_PATH }}-new&#39;</span>
+  <span style=color:#f92672>link</span>:
+    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Link</span>
+    <span style=color:#f92672>needs</span>: [<span style=color:#ae81ff>deploy]</span>
+    <span style=color:#f92672>runs-on</span>: <span style=color:#ae81ff>ubuntu-latest</span>
+    <span style=color:#f92672>steps</span>:
+      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Symlink the current release</span>
+        <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>appleboy/ssh-action@v0.1.3</span>
+        <span style=color:#f92672>with</span>:
+          <span style=color:#f92672>host</span>: <span style=color:#ae81ff>${{ secrets.HOST }}</span>
+          <span style=color:#f92672>username</span>: <span style=color:#ae81ff>${{ secrets.USERNAME }}</span>
+          <span style=color:#f92672>key</span>: <span style=color:#ae81ff>${{ secrets.SSH_KEY }}</span>
+          <span style=color:#f92672>script</span>: |<span style=color:#e6db74>
+</span><span style=color:#e6db74>            ln -fsn ${{ secrets.THEME_ABS_PATH }}-new ${{ secrets.THEME_ABS_PATH }}
+</span><span style=color:#e6db74>            rm -rf ${{ secrets.THEME_ABS_PATH }}-old
+</span><span style=color:#e6db74>            cp -r ${{ secrets.THEME_ABS_PATH }}-new ${{ secrets.THEME_ABS_PATH }}-old
+</span><span style=color:#e6db74>            ln -fsn ${{ secrets.THEME_ABS_PATH }}-old ${{ secrets.THEME_ABS_PATH }}
+</span><span style=color:#e6db74>            rm -rf ${{ secrets.THEME_ABS_PATH }}-new</span>            
+</code></pre></div><div class=blog-tags><a href=https://blog.rbarbazz.com/tags/wordpress/>wordpress</a>&nbsp;
+<a href=https://blog.rbarbazz.com/tags/ci/cd/>ci/cd</a>&nbsp;</div></article></div><footer><div><a href=https://github.com/rbarbazz name=Github><em class="fab fa-github fa-lg"></em></a><div class=container><p class="credits copyright"><a href=https://blog.rbarbazz.com/about></a>&nbsp;&copy;
+2021
+&nbsp;/&nbsp;
+<a href=https://blog.rbarbazz.com/>rbarbazz's blog</a>
+&nbsp;&ndash;&nbsp;
+<em class="fas fa-moon" id=dark-mode-toggle></em></p><p class="credits theme-by">Powered By <a href=https://gohugo.io>Hugo</a>&nbsp;
+Theme
+<a href=https://github.com/matsuyoshi30/harbor>Harbor</a></p></div></footer></body></html>
