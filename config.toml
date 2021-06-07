@@ -8,17 +8,18 @@ paginate = 3
   section = ["HTML"]
 
 [[params.nav]]
+  identifier = "home"
+  name = "Home"
+  icon = "fas fa-home fa-lg"
+  url = ""
+  weight = 3
+
+[[params.nav]]
   identifier = "tags"
   name = "Tags"
   icon = "fas fa-tag fa-lg"
   url = "tags"
   weight = 3
-
-[params.logo]
-  url = "gakuto.png"
-  width = 40
-  height = 40
-  alt = "Gakuto"
 
 [[params.social]]
   name="Github"
